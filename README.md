@@ -12,3 +12,21 @@ WHERE rn = 3
 ```
 
 --> Here I partitioned by user_id that means rank will be given to different transactions present for same user_id. and added transaction date order in ascending order so that transaction will be in a sequence.
+
+
+## [Sending vs. Opening Snaps [Snapchat SQL Interview Question]](https://datalemur.com/questions/time-spent-snaps) [Difficulty : Medium]
+
+```
+SELECT B.age_bucket,
+ROUND(SUM(CASE WHEN activity_type = 'send' THEN time_spent END)*100.0/SUM(time_spent),2) AS send_perc,
+ROUND(SUM(CASE WHEN activity_type = 'open' THEN time_spent END)*100.0/SUM(time_spent),2) AS open_perc
+FROM activities A
+INNER JOIN age_breakdown B
+ON A.user_id = B.user_id
+WHERE A.activity_type IN ('open','send')
+GROUP BY B.age_bucket
+```
+
+--> As we need to calculate sum only of 'send' and 'open' activity I considered only those activity_type rows.
+
+--> Learning : use of CASE statement in AGGREGATE function in SELECT statement.
