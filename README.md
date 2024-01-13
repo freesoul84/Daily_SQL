@@ -74,6 +74,7 @@ ORDER BY B.issued_amount DESC
 --> Learning : Use of Window function and CTE
 
 
+
 ## [Compressed Mode [Alibaba SQL Interview Question]](https://datalemur.com/questions/alibaba-compressed-mode) [Difficulty : Medium]
 
 ```
@@ -85,6 +86,7 @@ ORDER BY A.item_count ASC
 ```
 
 --> Learning : Used subquery in where clause
+
 
 
 ## [Histogram of Users and Purchases [Walmart SQL Interview Question]](https://datalemur.com/questions/histogram-users-purchases) [Difficulty : Medium]
@@ -105,3 +107,20 @@ ORDER BY B.transaction_date
     2. We will join the output of CTE with the original user_transactions table based on USER_ID and TRANSACTION_DATE matching between both table.
     3. Later we will group PRODUCT_ID count based on USER_ID.so if USER_ID has more than one PRODUCT_ID then its count would be more than one.
     4. Lastly we will order the  result using TRANSACTION DATE in ASC order
+
+
+## [Supercloud Customer [Microsoft SQL Interview Question]](https://datalemur.com/questions/supercloud-customer) [Difficulty : Medium]
+
+```
+SELECT A.customer_id 
+FROM customer_contracts A
+INNER JOIN 
+products B ON 
+A.product_id = B.product_id
+GROUP BY A.customer_id
+HAVING COUNT(A.product_id) >= 1 AND COUNT(DISTINCT B.product_category) >=3
+```
+
+--> Method : 
+    1. We need to find customer_ids who purchases product and its product category is unique and equal to number of categories present in product_cateogry table (which is given as 3 categories)
+   
