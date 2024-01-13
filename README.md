@@ -30,3 +30,21 @@ GROUP BY B.age_bucket
 --> As we need to calculate sum only of 'send' and 'open' activity I considered only those activity_type rows.
 
 --> Learning : use of CASE statement in AGGREGATE function in SELECT statement.
+
+
+## [International Call Percentage [Verizon SQL Interview Question]](https://datalemur.com/questions/international-call-percentage) [Difficulty : Medium]
+
+```
+SELECT 
+  ROUND(SUM(CASE
+    WHEN (SELECT TRIM(country_id) 
+          FROM phone_info 
+          WHERE caller_id = A.caller_id) != 
+          (SELECT TRIM(country_id) 
+          FROM phone_info 
+          WHERE caller_id = A.receiver_id) THEN 1 ELSE  0
+          END)*100.0/COUNT(A.caller_id),1) AS C
+FROM phone_calls A
+```
+
+--> Learning : Used comparison of values in a select statement using sub queries where the value we are matching from the main query.
