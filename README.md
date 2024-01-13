@@ -105,9 +105,9 @@ ORDER BY B.transaction_date
 
 --> Method : <br>
 1. CTE will give us the latest trnsaction for each user_id and we will get distinct rows containting USER_ID, LATEST TRANSACTION_DATE <br>
-    2. We will join the output of CTE with the original user_transactions table based on USER_ID and TRANSACTION_DATE matching between both table.<br>
-    3. Later we will group PRODUCT_ID count based on USER_ID.so if USER_ID has more than one PRODUCT_ID then its count would be more than one.<br>
-    4. Lastly we will order the  result using TRANSACTION DATE in ASC order <br>
+2. We will join the output of CTE with the original user_transactions table based on USER_ID and TRANSACTION_DATE matching between both table.<br>
+3. Later we will group PRODUCT_ID count based on USER_ID.so if USER_ID has more than one PRODUCT_ID then its count would be more than one.<br>
+4. Lastly we will order the  result using TRANSACTION DATE in ASC order <br>
 
 
 ## [Supercloud Customer [Microsoft SQL Interview Question]](https://datalemur.com/questions/supercloud-customer) [Difficulty : Medium]
@@ -123,5 +123,5 @@ HAVING COUNT(A.product_id) >= 1 AND COUNT(DISTINCT B.product_category) >=3
 ```
 
 --> Method : <br>
-    1. We need to find customer_ids who purchases product and its product category is unique and equal to number of categories present in product_cateogry table (which is given as 3 categories)<br>
+ 1. We need to find customer_ids who purchases product and its product category is unique and equal to number of categories present in product_cateogry table (which is given as 3 categories)<br>
    
