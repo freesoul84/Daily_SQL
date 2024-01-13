@@ -48,3 +48,27 @@ FROM phone_calls A
 ```
 
 --> Learning : Used comparison of values in a select statement using sub queries where the value we are matching from the main query.
+
+
+## [Card Launch Success [JPMorgan Chase SQL Interview Question]](https://datalemur.com/questions/card-launch-success) [Difficulty : Medium]
+
+```
+-- find the launch month of the credit card : filtering
+-- count total card issued in that month : counting and summing
+-- order the result by count obtained in second line
+
+;WITH CTE1 AS(SELECT distinct card_name,
+MIN(issue_year) OVER(PARTITION BY card_name ORDER BY issue_year, issue_month) AS earliar_year,
+MIN(issue_month) OVER(PARTITION BY card_name ORDER BY issue_year, issue_month) AS earliar_month
+FROM monthly_cards_issued)
+
+SELECT A.card_name, B.issued_amount FROM
+(SELECT card_name, earliar_year, earliar_month FROM CTE1 ) A
+INNER JOIN 
+monthly_cards_issued B 
+ON A.card_name = B.card_name 
+WHERE A.earliar_month = B.issue_month AND A.earliar_year = B.issue_year
+ORDER BY B.issued_amount DESC
+```
+
+--> Learning : Use of Winodow function and CTE
