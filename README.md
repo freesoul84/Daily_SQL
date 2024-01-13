@@ -11,7 +11,7 @@ FROM transactions) A
 WHERE rn = 3
 ```
 
---> Here I partitioned by user_id that means rank will be given to different transactions present for same user_id. and added transaction date order in ascending order so that transaction will be in a sequence.
+--> Method : Here I partitioned by user_id that means rank will be given to different transactions present for same user_id. and added transaction date order in ascending order so that transaction will be in a sequence.
 
 
 ## [Sending vs. Opening Snaps [Snapchat SQL Interview Question]](https://datalemur.com/questions/time-spent-snaps) [Difficulty : Medium]
@@ -27,7 +27,7 @@ WHERE A.activity_type IN ('open','send')
 GROUP BY B.age_bucket
 ```
 
---> As we need to calculate sum only of 'send' and 'open' activity I considered only those activity_type rows.
+--> Method : As we need to calculate sum only of 'send' and 'open' activity I considered only those activity_type rows.
 
 --> Learning : use of CASE statement in AGGREGATE function in SELECT statement.
 
@@ -85,3 +85,23 @@ ORDER BY A.item_count ASC
 ```
 
 --> Learning : Used subquery in where clause
+
+
+## [Histogram of Users and Purchases [Walmart SQL Interview Question]](https://datalemur.com/questions/histogram-users-purchases) [Difficulty : Medium]
+
+```
+;WITH CTE1 AS (SELECT DISTINCT user_id, MAX(transaction_date) OVER (PARTITION BY user_id ORDER BY transaction_date DESC)
+FROM user_transactions)
+
+SELECT DISTINCT B.transaction_date, B.user_id, COUNT(B.product_id)
+FROM CTE1 A INNER JOIN user_transactions B
+ON A.user_id = B.user_id
+WHERE B.transaction_date = A.max
+GROUP BY B.user_id, B.transaction_date 
+ORDER BY B.transaction_date
+```
+
+--> Method : 1. CTE will give us the latest trnsaction for each user_id and we will get distinct rows containting USER_ID, LATEST TRANSACTION_DATE
+    2. We will join the output of CTE with the original user_transactions table based on USER_ID and TRANSACTION_DATE matching between both table.
+    3. Later we will group PRODUCT_ID count based on USER_ID.so if USER_ID has more than one PRODUCT_ID then its count would be more than one.
+    4. Lastly we will order the  result using TRANSACTION DATE in ASC order
