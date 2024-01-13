@@ -71,4 +71,17 @@ WHERE A.earliar_month = B.issue_month AND A.earliar_year = B.issue_year
 ORDER BY B.issued_amount DESC
 ```
 
---> Learning : Use of Winodow function and CTE
+--> Learning : Use of Window function and CTE
+
+
+## [Compressed Mode [Alibaba SQL Interview Question]](https://datalemur.com/questions/alibaba-compressed-mode) [Difficulty : Medium]
+
+```
+SELECT A.item_count FROM 
+items_per_order A
+WHERE A.order_occurrences = (SELECT MAX(order_occurrences) 
+FROM items_per_order) 
+ORDER BY A.item_count ASC
+```
+
+--> Learning : Used subquery in where clause
