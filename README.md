@@ -123,5 +123,24 @@ HAVING COUNT(A.product_id) >= 1 AND COUNT(DISTINCT B.product_category) >=3
 ```
 
 --> Method : <br>
- 1. We need to find customer_ids who purchases product and its product category is unique and equal to number of categories present in product_cateogry table (which is given as 3 categories)<br>
-   
+1. We need to find customer_ids who purchases product and its product category is unique and equal to number of categories present in product_cateogry table (which is given as 3 categories)<br>
+
+
+## [Repeated Payments [Stripe SQL Interview Question]](https://datalemur.com/questions/repeated-payments) [Difficulty : Hard]
+
+```
+SELECT COUNT(*) FROM (SELECT A.transaction_timestamp, B.transaction_timestamp,EXTRACT(MINUTE FROM B.transaction_timestamp - A.transaction_timestamp) AS min, EXTRACT(HOUR FROM B.transaction_timestamp - A.transaction_timestamp) as hour
+FROM transactions A
+INNER JOIN transactions B
+ON A.merchant_id = B.merchant_id
+AND A.credit_card_id = B.credit_card_id
+AND A.amount = B.amount
+WHERE A.transaction_timestamp != B.transaction_timestamp
+AND EXTRACT(MINUTE FROM B.transaction_timestamp - A.transaction_timestamp)<=10
+AND EXTRACT(HOUR FROM B.transaction_timestamp - A.transaction_timestamp)=0
+AND A.transaction_timestamp < B.transaction_timestamp) C
+```
+  
+--> Method : <br>
+1. do the self join on merchant_id, credit_card_id, amount where transaction timestamps are not same and difference between transaction_timestamps should have hour = 0 and minutes <= 10
+2. count all rows which are satisfying above conditions
